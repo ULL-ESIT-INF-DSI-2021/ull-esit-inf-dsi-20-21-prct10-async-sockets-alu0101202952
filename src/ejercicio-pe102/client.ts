@@ -1,4 +1,6 @@
 import {connect} from 'net';
+
+
 import {MessageEventEmitterClient} from './eventEmitterClient';
 
 const client = new MessageEventEmitterClient(connect({port: 60300}));
@@ -14,3 +16,14 @@ client.on('message', (message) => {
     console.log(`Message type ${message.type} is not valid`);
   }
 });
+
+client.on('command', (command) => {
+    if (process.argv.length !== 3) {
+        console.log('Please, provide a directory.');
+    } else {
+        const dir = process.argv[2];
+        console.log(`Command ${command}`)
+        client.lsDirectory(dir);
+    }
+});
+

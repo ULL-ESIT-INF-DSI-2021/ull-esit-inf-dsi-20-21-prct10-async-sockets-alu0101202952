@@ -1,25 +1,27 @@
 import * as net from 'net';
 
 const server = net.createServer((connection) => {
-  console.log('A client has connected.');
+    console.log('A client has connected.');
 
-  const firstData = '{"type": "change", "prevSize": 13';
-  const secondData = ', "currSize": 27}\n';
+    const firstData = '{"type": "change", "prevSize": 13';
+    const secondData = ', "currSize": 27}\n';
 
-  connection.write(firstData);
 
-  const timer = setTimeout(() => {
-    connection.write(secondData);
-    connection.end();
-  }, 500);
+    connection.write(firstData);
 
-  connection.on('end', () => {
-    clearTimeout(timer);
-  });
+    const timer = setTimeout(() => {
+        connection.write(secondData);
+        connection.end();
+    }, 500);
 
-  connection.on('close', () => {
-    console.log('A client has disconnected');
-  });
+
+    connection.on('end', () => {
+        clearTimeout(timer);
+    });
+
+    connection.on('close', () => {
+        console.log('A client has disconnected');
+    });
 });
 
 server.listen(60300, () => {

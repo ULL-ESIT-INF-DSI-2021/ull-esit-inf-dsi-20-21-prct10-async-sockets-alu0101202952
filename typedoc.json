@@ -1,0 +1,8 @@
+{
+  "entryPoints": ["./src/ejercicio-pe102/server.ts",
+                  "./src/ejercicio-pe102/client.ts",
+                  "./src/ejercicio-pe102/server-two-chunks.ts",
+                  "./src/ejercicio-pe102/eventEmitterClient.ts"
+],
+  "out": "./docs"
+}

@@ -1,4 +1,3 @@
-import { Color } from 'chalk';
 import {connect} from 'net';
 import {RequestType, ResponseType} from './types';
 

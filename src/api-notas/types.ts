@@ -1,3 +1,7 @@
+export type Color = {
+    color?: 'red' | 'blue' | 'green' | 'yellow'
+}
+
 export type RequestType = {
     type: 'add' | 'update' | 'remove' | 'read' | 'list';
     title?: string;
@@ -5,9 +9,6 @@ export type RequestType = {
     color?: Color;
 }
 
-export type Color = {
-    color?: 'red' | 'blue' | 'green' | 'yellow'
-}
   
 export type ResponseType = {
     type: 'add' | 'update' | 'remove' | 'read' | 'list';

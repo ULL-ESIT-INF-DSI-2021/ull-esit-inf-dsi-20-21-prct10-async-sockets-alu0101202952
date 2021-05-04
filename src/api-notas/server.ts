@@ -1,3 +1,5 @@
+// Pregunta: como invocar el programa
+
 import {createServer} from 'net';
 import {spawn} from 'child_process';
 import {RequestType, ResponseType} from './types';
@@ -15,7 +17,7 @@ const server = createServer({allowHalfOpen: true}, (connection) => {
 
     const request: RequestType = JSON.parse(data);
 
-    const cmd = spawn(request.type, request.title, request.body, request.color?.color);
+    const cmd = spawn(request.type, request.title, request.body, request.color?.color); //como lo declaro?
 
     let cmdOutput = '';
     cmd.stdout.on('data', (chunk) => {

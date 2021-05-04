@@ -1,7 +1,7 @@
 import "mocha";
 import {expect} from 'chai';
-import { TodoItem } from "../src/todoItem";
-import { TodoCollection } from "../src/todoCollection";
+import { TodoItem } from "../src/api-notas/notes/todoItem";
+import { TodoCollection } from "../src/api-notas/notes/todoCollection";
 import chalk from "chalk";
 
 let todos: TodoItem[] = [

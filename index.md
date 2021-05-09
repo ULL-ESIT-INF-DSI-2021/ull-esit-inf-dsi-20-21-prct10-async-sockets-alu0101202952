@@ -191,160 +191,52 @@ Lo ideal es hacer todo esto con metodología TDD, pero debido a que se trabaja c
 
 La idea de esta parte es mejorar el funcionamiento de la práctica adaptada para actuar con un servidor y las notas, de la práctica 8, para ello se tuvo que adaptar el código y tests con relación a la práctica 8.
 
+Para ello se modificó del fichero **todoCollection.ts** de mi práctica 8 que recuerdo que tenía la estructura y modos de guardar y cargar las notas, o conjuntos de notas. Para ello se necesitó, definir funciones independientes de la clase para poder exportar luego para que el servidor pueda trabajar luego. Quedando:
+
+- Función getTodoColor(), consigue el color con la herramienta chalk, ya usada anteriormente:
+
+![estructura funciones independientes](https://i.imgur.com/eJ435yo.jpg)
+
+- Funciónes getTodoByName() consigue el nombre de la nota con la que se necesitará luego, loadTodo() carga la nota que está alojada y asignada a un usuario determinado:
+
+![estructura funciones independientes](https://i.imgur.com/rQnEAkx.jpg)
+
+- Función saveTodo(), guarda las notas y las asigna a un usuario determinado:
+
+![estructura funciones independientes](https://i.imgur.com/FjhbiWe.jpg)
+
+
+Tras modificar ese fichero y adaptar algunos datos en los test, continuamos con el funcionamiento de la práctica 10 y el planteamiento de su funcionamiento.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━✧❂✧━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-### EJERCICIO 2
+### Práctica 10
 
-En el siguiente ejercicio se debe escribir una aplicación que proporcione información sobre el número de líneas, palabras o caracteres que contiene un fichero de texto. Y crear dos funciones **withPipe** y **withoutPipe**, que emplean el método pipe de un Stream. Para ello se hace uso de la gestión del paso de parámetros con **yargs**, en este programa es mediante el comando **showinfo**.
-La forma de invocar la información que se quiere recibir sobre número de caracteres, lineas y palabras es: 
-> `node dist/ejercicio2.js showinfo --filePath=hola.txt --pipe=true --characters=true --words=true --lines=true`
+La idea de la estructura para este ejercicio 10 es la siguiente:
 
-Argumentos:
-- _--filePath=hola.txt_ : fichero del que se quiere obtener información
-- _--pipe=true_ : por defecto se obtiene a true que usemos la función withPipe, si este estuviera a false, entonces sería withoutPipe.
-- _--characters=true_ : por defecto cuente caracteres
-- _--words=true_ : por defecto cuente las palabras
-- _--lines=true:_ : por defecto cuente las líneas 
+![estructura](https://i.imgur.com/AvilekO.jpg)
 
-Al ejercutar el comando por consola se mostraría como:
-
-![funcionamiento](https://i.imgur.com/1AWNicf.jpg)
-
-Siendo el fichero hola.txt: 
-
-![hola](https://i.imgur.com/Ud2jGvz.jpg)
-
-Y siendo el código de ambas funciones:
-
-1) FUNCIÓN WITHPIPE()
-
-![withpipe](https://i.imgur.com/O4Vfca7.jpg)
-
-Esta función consistió de acudir a la función pipe aportada por stdout, esto para poder redirigir la salida de un comando hacia otro. Por ello en el código se invoca dicho método.
-
-El problema que no consigo resolver es porqué los caracteres no me dan los que deben deberían de ser 9 caracteres pero da 11 caracteres, entonces entiendo que toma los saltos de líneas o algo así como un caracter más, pero no he sabido resolver esto.
-
-2) FUNCIÓN WITHOUTPIPE()
-
-![withoutpipe](https://i.imgur.com/ayS4T6N.jpg)
-
-Esta función consistió en acumular en un string la cantidad de caracteres, palabras y líneas, esto está en **finalResult**
-
+Los ficheros alojados dentro del directorio > `./src/api-notas/notes` estos son reutilizados para el tratamiento de notas y modificados según se especificó anteriormente. Los otros ficheros los explicaré a continuación:
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━✧❂✧━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-### EJERCICIO 3
 
-Este ejercicio se plateó como copiando el código y pruebas de la práctica 8, porque por tema de tiempo, se tenía implementado el watchFile para la modificación de las notas, pero no se pudo terminar, quedando la estructura como:
+#### Types.ts
 
-![estructura](https://i.imgur.com/SZ0LFQO.jpg)
+Este fichero contiene los tipos que se manejarán para el control de request y response sufridas en la conexión con el server.
+
+![type.ts](https://i.imgur.com/vEGJJNA.jpg)
+
+Este fichero tendrá los tipos con los que trabajará de petición y respuesta del servidor como tratamiento de las notas con sus respectivos atributos que se indican.
 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━✧❂✧━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-### EJERCICIO 4
+#### Server.ts
 
-En este ejercicio se plantea desarrollar una aplicación que permita hacer de wrapper de los distintos comandos empleados en Linux para el manejo de ficheros y directorios. En concreto, la aplicación deberá permitir:
-
-1) Dada una ruta concreta, mostrar si es un directorio o un fichero.
-
-![4-1](https://i.imgur.com/2pdY89d.jpg)
-
-Para la implementación hice uso del método O_DIRECTORY de **constants**, este reconoce si un elemento es un directorio, y se puede emplear dicho principio para distinguir mediante dicho fallo si es un fichero y mostrar por pantalla que se trata de un fichero o si, por el contrario se trata de un directorio,
-
-El comando sería, con el ejemplo de fichero por ejemplo anterior:
-> `node dist/ejercicio4.js cdd --path=hola.txt`
-
-Como se puede observar, el comando invocante es **cdd**.
-
-Y por consola sacaría: 
-> `hola.txt is a file`
-
-A continuación se muestra un ejemplo de funcionamiento sería, tanto para directorio como para fichero:
-
-![funcionamiento](https://i.imgur.com/pmPMO66.jpg)
-
-2) Crear un nuevo directorio a partir de una nueva ruta que recibe como parámetro.
-
-![4-2](https://i.imgur.com/cL3JNTG.jpg)
-
-Para la implementación de este comando se basa en un simil del conocido comando **mkdir**, pero a la hora de plantearlo con el proceso de access resultó que sólo saca un error, como si no entrase y saltase al primer error de esta función, por ello la otra optativa que se planteó fue seguir el formato de la anterior práctica a la hora de crear el directorio, pero como no sé si es permitido no he procedido con ello. Pero que se conozca que se tiene en cuenta y no se sabe si estaría permitido.
-
-El comando sería:
-> `node dist/ejercicio4.js mkd --path=nuevodir`
-
-Como se puede observar, el comando invocante es **mkd**.
-
-Pero aunque el directorio no exista me sale el error primero que se muestra en la implementación de la función:
-
-![error](https://i.imgur.com/kuNeEzL.jpg)
-
-
-3 Listar los ficheros dentro de un directorio.
-
-![4-3](https://i.imgur.com/wYrRmAf.jpg)
-
-Para la implementación de este comando, me basé en el proceso access, spawn para su implementación como con otros comandos, este resultó más sencillo y su puesta en funcionamiento es correcta. Mostraré luego un ejemplo de ello.
-
-El comando sería:
-> `node dist/ejercicio4.js lsf --path=tests`
-
-En este caso analizo los ficheros que tenga el directorio tests, y este tiene dos, los dos de pruebas unitarias del ejercicio3:
-
-![funcionamiento](https://i.imgur.com/5KwMZjU.jpg)
-
-4) Mostrar el contenido de un fichero (similar a ejecutar el comando cat).
-
-La implementación de este comando es similar pero con la opción cat del método spawn.
-
-El comando sería:
-> `node dist/ejercicio4.js catf --path=hola.txt`
-
-Mostrándose correctamente:
-
-![funcionamiento](https://i.imgur.com/SUM2D00.jpg)
-
-
-5) Borrar ficheros y directorios.
-
-![4-5](https://i.imgur.com/laqvnpP.jpg)
-
-Para la implementación con el método spawn de rm, podremos borrar el fichero que se indique.
-
-El comando sería:
-> `node dist/ejercicio4.js rmfd --path=hola.txt`
-
-Y después de tiempo usándolo se borraría nuestro querido fichero hola.txt. El funcionamiento sería:
-
-![funci](https://i.imgur.com/TpIdoh9.jpg)
-
-6) Mover y copiar ficheros y/o directorios de una ruta a otra. Para este caso, la aplicación recibirá una ruta origen y una ruta destino. En caso de que la ruta origen represente un directorio, se debe copiar dicho directorio y todo su contenido a la ruta destino.
-
-![4-6](https://i.imgur.com/Ox9rSa9.jpg)
-
-El funcionamiento sería igual pero con mv.
-
-El comando sería:
-> `node dist/ejercicio4.js mvfd --src=prueba --dst=tests`
-
-El funcionamiento, primero cree un directorio llamado prueba, en la raíz, y se comprueba que en el directorio tests no está:
-
-![2](https://i.imgur.com/9BbmrnE.jpg)
-
-Luego se ejecuta el comando y se comprueba que con dicho comando falla.
-
-Sin embargo si el código lo modificamos para que sea en vez de mover, copiar y ejecutamos desde este punto si funciona, entonces funcioa con cp y no con mv_
-
-![cod](https://i.imgur.com/etNJRos.jpg)
 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━✧❂✧━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-![fumn](https://i.imgur.com/724YHCc.jpg)
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━✧❂✧━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
 
  
 ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂

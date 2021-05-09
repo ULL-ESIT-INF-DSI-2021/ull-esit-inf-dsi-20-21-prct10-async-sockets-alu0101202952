@@ -1,17 +1,20 @@
+import { TodoCollection } from "./notes/todoCollection"
+
+
 export type Color = {
-    color?: 'red' | 'blue' | 'green' | 'yellow'
+    color: 'red' | 'blue' | 'green' | 'yellow';
 }
 
 export type RequestType = {
-    type: 'add' | 'update' | 'remove' | 'read' | 'list';
-    title?: string;
-    body?: string;
-    color?: Color;
+  type: 'add' | 'update' | 'remove' | 'read' | 'list';
+  user: string;
+  title: string;
+  body?: string;
+  color?: Color;
 }
 
-  
 export type ResponseType = {
-    type: 'add' | 'update' | 'remove' | 'read' | 'list';
-    success: boolean;
-    notes?: Note[];
+  type: 'add' | 'update' | 'remove' | 'read' | 'list' | 'error';
+  success: boolean;
+  notes?: TodoCollection[];
 }

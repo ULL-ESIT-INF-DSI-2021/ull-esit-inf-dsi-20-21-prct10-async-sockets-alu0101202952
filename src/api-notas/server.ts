@@ -1,82 +1,45 @@
-// Pregunta: como invocar el programa
 
-import {createServer} from 'net';
-import {spawn} from 'child_process';
-import {RequestType, ResponseType} from './types';
+import * as net from 'net';
+import { RequestType, ResponseType } from './types';
+import { addTodo} from './commands';
+import { MessageEventEmitterClient } from '../ejercicio-pe102/eventEmitterClient';
 
-const server = createServer({allowHalfOpen: true}, (connection) => {
-  console.log('Client connected');
+function todoFields(request: RequestType, titleIn: boolean, bodyIn: boolean, colorIn: boolean): boolean {
+  if (titleIn && typeof request.title !== 'string') {
+    return false;
+  }
+  if (bodyIn && typeof request.body !== 'string') {
+    return false;
+  }
+  if (colorIn && typeof request.color !== 'string') {
+    return false;
+  }
+  return true;
+}
 
-  let data = '';
-  connection.on('data', (chunk) => {
-    data += chunk;
-  });
-
-  connection.on('end', () => {
-    console.log('Request received from client');
-
-    const request: RequestType = JSON.parse(data);
-
-    const cmd = spawn(request.type, request.title, request.body, request.color?.color); //como lo declaro?
-
-    let cmdOutput = '';
-    cmd.stdout.on('data', (chunk) => {
-      cmdOutput += chunk;
-    });
-
-    let cmdError = '';
-    cmd.stderr.on('data', (chunk) => {
-      cmdError += chunk;
-    });
-
-    let cmdError = '';
-    cmd.stderr.on('data', (chunk) => {
-      cmdError += chunk;
-    });
-
-    let cmdError = '';
-    cmd.stderr.on('data', (chunk) => {
-      cmdError += chunk;
-    });
-
-    cmd.on('close', (code) => {
-      let response: ResponseType;
-      if (code! < 0) {
-        response = {
-          error: `Command ${request.type} does not exist`,
-        };
-      } else if (code! > 0) {
-        response = {
-          error: cmdError,
-        };
-      } else {
-        response = {
-          output: cmdOutput,
-        };
-      }
-      console.log('Response sent to client');
-      connection.write(JSON.stringify(response));
-      connection.end();
-    });
-
-    cmd.on('error', (err) => {
-      if (err) {
-        console.log(`Command could not be run: ${err.message}`);
-      }
-    });
-  });
-
-  connection.on('error', (err) => {
-    if (err) {
-      console.log(`Connection could not be established: ${err.message}`);
+function processRequest(request: RequestType): ResponseType {
+  if (typeof request.type === 'string' && typeof request.user === 'string') {
+    if (request.type == 'add') {
+        if (todoFields(request, true, true, true)) {
+          return addTodo(request);
+        } else {
+          return { type: 'error', success: false};
+        }
+    } else {
+      return { type: 'error', success: false};
     }
-  });
+  } else {
+    return { type: 'error', success: false};
+  }
+}
 
-  connection.on('close', () => {
-    console.log('Client disconnected');
+const server = net.createServer((connection) => {
+  const listener = new MessageEventEmitterClient(connection);
+  listener.on('request', (request: RequestType) => {
+    const response = processRequest(request);
+    connection.write(JSON.stringify(response));
+    connection.end();
   });
 });
 
-server.listen(60300, () => {
-  console.log('Waiting for clients to connect');
-});
+server.listen(60300);

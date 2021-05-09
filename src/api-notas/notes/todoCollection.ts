@@ -49,13 +49,13 @@ export class TodoCollection {
   }
 
   /**
-   * getTodoById retorna la nota al pasarle el id o usuario propiertario
-   * @param id id del usuario de la nota
-   * @returns devuelve la nota 
-   */
+* getTodoById retorna la nota al pasarle el id o usuario propiertario
+* @param id id del usuario de la nota
+* @returns devuelve la nota 
+*/
   getTodoById(id: number) : TodoItem | undefined {
     return this.itemMap.get(id);
-  }
+   }
 
   /**
    * getTodoItems retorna todas las notas
@@ -67,29 +67,7 @@ export class TodoCollection {
       .filter(item => title || !item.getTask());
   }
 
-  /**
-   * getTodoColor identifica el color de la nota
-   * @param color de la nota
-   * @returns según qué color se le asigna con la herramienta chalk
-   */
-  getTodoColor(color: string){
-    switch(color) {
-      case 'red':
-      return chalk.red;
-      
-      case 'blue':
-      return chalk.blue;
-  
-      case 'green':
-      return chalk.green;
-  
-      case 'yellow':
-      return chalk.yellow;
-  
-      default:
-      return false;
-    }
-  }
+
 
   /**
    * removeComplete eliminaría la nota al pasarle el titulo
@@ -102,48 +80,91 @@ export class TodoCollection {
     })
   }
 
-  /**
+}
+
+/**
+   * getTodoColor identifica el color de la nota
+   * @param color de la nota
+   * @returns según qué color se le asigna con la herramienta chalk
+   */
+ export function getTodoColor(color: string){
+  switch(color) {
+    case 'red':
+    return chalk.red;
+    
+    case 'blue':
+    return chalk.blue;
+
+    case 'green':
+    return chalk.green;
+
+    case 'yellow':
+    return chalk.yellow;
+
+    default:
+    return false;
+  }
+}
+
+/**
+ * 
+ * @param title 
+ * @param todo 
+ * @returns 
+ */
+export function getTodoByName(title: string, todo: TodoItem[]){
+  for (const i of todo) {
+    if(i.getTitle() == title){
+      return i;
+    }
+  } 
+  return false;
+}
+
+
+/**
    * loadTodo carga la nota según el directorio que se le asigna por usuario
    * @param user con el directorio
    * @returns solo carga lo que hay en el directorio
    */
-  loadTodo(user: number) {
-    const dirPath = `./${user}`; 
-    const tasks: TodoItem[] = [];
-    let fs = require("fs");
-    if (fs.existsSync(dirPath)) {
-      //Nombres de los ficheros bajo ese directorio
-      const fileNames = fs.readdirSync(dirPath);
-      for (const file of fileNames) {
-        let fileContent: Buffer = fs.readFileSync(join(dirPath, file));
-        //String en formato JSON y lo convierte en un objeto
-        let contentObject = JSON.parse(fileContent.toString());
-        //Actua como un diccionario, leemos cada atributo y la información que tiene y la extraemos
-        tasks.push(new TodoItem(contentObject.id, contentObject.title, contentObject.text, contentObject.color));
-      }
+ export function loadTodo(user: number) {
+  const dirPath = `./${user}`; 
+  const tasks: TodoItem[] = [];
+  let fs = require("fs");
+  if (fs.existsSync(dirPath)) {
+    //Nombres de los ficheros bajo ese directorio
+    const fileNames = fs.readdirSync(dirPath);
+    for (const file of fileNames) {
+      let fileContent: Buffer = fs.readFileSync(join(dirPath, file));
+      //String en formato JSON y lo convierte en un objeto
+      let contentObject = JSON.parse(fileContent.toString());
+      //Actua como un diccionario, leemos cada atributo y la información que tiene y la extraemos
+      tasks.push(new TodoItem(contentObject.id, contentObject.title, contentObject.text, contentObject.color));
     }
-    return tasks;
   }
+  return tasks;
+}
 
-  /**
-   * saveTodo que guarda las notas con un formato específico .JSON y cuyo nombre del fichero
-   * es igual al titulo que tiene la nota
-   * @param tasks contexto y cuerpo de la nota
-   * @param user usuario
-   */
-  saveTodo(tasks: TodoItem[], user: string) {
-    let fs = require("fs");
-    const dir = `./${user}`;
-    //Se comprueba que existe el directorio si no se crea
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir);
-    }
-    for (const task of tasks) {
-      //Nombre que se le atribuye al fichero y extensión
-      let fileName = task.getTitle() + '.json';
-      fileName = join(dir, fileName);
-      //Coge un objeto y la convierte a formato JSON
-      fs.writeFileSync(fileName, JSON.stringify(task));
-    }
+/**
+ * saveTodo que guarda las notas con un formato específico .JSON y cuyo nombre del fichero
+ * es igual al titulo que tiene la nota
+ * @param tasks contexto y cuerpo de la nota
+ * @param user usuario
+ */
+export function saveTodo(user: string) {
+  let fs = require("fs");
+  let tasks: TodoItem[] = [];
+  const dir = `./${user}`;
+  //Se comprueba que existe el directorio si no se crea
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir);
+  }
+  
+  for (const task of tasks) {
+    //Nombre que se le atribuye al fichero y extensión
+    let fileName = task.getTitle() + '.json';
+    fileName = join(dir, fileName);
+    //Coge un objeto y la convierte a formato JSON
+    fs.writeFileSync(fileName, JSON.stringify(task));
   }
 }

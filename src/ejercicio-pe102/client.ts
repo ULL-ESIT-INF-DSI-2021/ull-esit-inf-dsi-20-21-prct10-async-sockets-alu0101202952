@@ -17,13 +17,4 @@ client.on('message', (message) => {
   }
 });
 
-client.on('command', (command) => {
-    if (process.argv.length !== 3) {
-        console.log('Please, provide a directory.');
-    } else {
-        const dir = process.argv[2];
-        console.log(`Command ${command}`)
-        client.lsDirectory(dir);
-    }
-});
 

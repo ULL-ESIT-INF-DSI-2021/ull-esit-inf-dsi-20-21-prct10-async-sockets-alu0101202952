@@ -5,14 +5,7 @@ if (process.argv.length < 3) {
   console.log('At least, a command must be specified');
 } else {
   const client = connect({port: 60300});
-
-  const req: RequestType = {
-    type: 'add' | 'update' | 'remove' | 'read' | 'list',  //Como se lo asigno?
-    title: process.argv[3],
-    body: process.argv[4],
-    color: ;
-
-  };
+  const req = RequestType
 
   client.write(JSON.stringify(req), (err) => {
     if (err) {

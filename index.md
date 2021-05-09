@@ -234,9 +234,25 @@ Este fichero tendrá los tipos con los que trabajará de petición y respuesta d
 
 #### Server.ts
 
+Este fichero contiene el tratamiento de las notas y las respuestas del servidor a las peticiones que se le realizan con el tratamiento de las notas. Estas acciones son: **add**, **update**, **remove**, **list** y **read** y en el caso de respuesta además proporcionará un tipo **error** a modo indicador de fallo como respuesta si no se realizó bien la acción. Implementadas está la acción o petición **add** y es la que se presentará.
+
+Por tanto la estructura del servidor es:
+
+![es1](https://i.imgur.com/Rl6JyM2.jpg)
+
+![es2](https://i.imgur.com/sIYmQYH.jpg)
+
+![es3](https://i.imgur.com/0JjHh7N.jpg)
+
+Está estructurado en dos partes o dos funciones diferenciadas, una para el tratamiento de los campos de entrada de las notas, comprobando que son tipo "strings" los atributos de las notas, que serán de petición para el server (function **todoFields**). Por otro lado está la función que trabaja las respuestas que trata el servidor a estas peticiones, en específico a la petición de añadido de notas **add** y esto el servidor lo tratará en escucha desde el puerto 60300 (function **processRequest**).
 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━✧❂✧━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+#### Commands.ts
+
+Este fichero
 
  
 ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂

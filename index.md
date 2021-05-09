@@ -252,8 +252,44 @@ Está estructurado en dos partes o dos funciones diferenciadas, una para el trat
 
 #### Commands.ts
 
-Este fichero
+Este fichero contiene los comandos que se trabajará con la ayuda de los request al server y la herramienta **yarg** para el tratamiento de comandos por línea de comandos. Para ello el fichero está estructurado:
 
+![e1](https://i.imgur.com/ANokvNM.jpg)
+
+![e2](https://i.imgur.com/oO7yxPO.jpg)
+
+![e3](https://i.imgur.com/kOdyxzY.jpg)
+
+Como se observa se distinguen 2 partes diferenciadas una función que se exporta asu vez para también luego tratarla en otros ficheros, en este caso, en el server. La primera paret es la función que se corresponde con el añadido de notas, esto con **addTodo**, con ello comprobamos los atributos de las notas, como el usuario el título y color, los datos necesarios mínimos para añadir notas. Por otro lado está el tratamiento del comando por línea de comandos con el **yarg** por un lado definiendo, como se ve en la segunda foto, los atributos y comandos que se pasan por consola. Esto es igual que la práctica 8, lo que cambia de todo ello es el handler porque al tratarlo no se tratará de misma manera, porque esta vez contamos con una petición al servidor, por ello, conectamos con el cliente por conexión por el puerto del servidor que antes se definió, alamcenando todo lo relacionado con esta acción de añadido y acabando a esto añadiendo la conversión a .json en el que se encuentran las notas a tratar. En otros casos se muestra errores en color rojo, con la herrmaienta chalk, que esto ya lo hacía en la práctica 8 y sigue con esta idea en la práctica 10.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━✧❂✧━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+#### EJEMPLO DE PRUEBA DE LA PRÁCTICA
+
+Se abrirán dos terminal, en una se ejecuta el server en modo escucha, con el comando:
+
+> `npx ts-node src/api-notas/server.ts`
+
+Quedando:
+
+![ejecutar server](https://i.imgur.com/0LhFM18.jpg)
+
+Pr otro lado en la otra terminal haremos de cliente que quiere añadir una nota específico con los atributos y comando necesarios. Esto con el comando:
+
+> `npx ts-node src/api-notas/commands.ts add --title="Red note" --user="edu" --body="This is now a red note" --color="red"`
+
+El comando es similar al que se usaba en la práctica 8, con la diferencia que tratamos de una conexión cliente-server para las peticiones.
+
+Quedando:
+
+![commands](https://i.imgur.com/RkscBtz.jpg)
+
+Finalizando así la práctica y continuamos con el seguimiento continuo por Coverage y github actions.
+
+ 
+ ━━━━━━━━━━━━━━━━━━━━━━━━━━✧❂✧━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ 
  
 ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂
 
@@ -264,11 +300,11 @@ En esta parte tenemos que hacer momentáneamente el repositorio público en gith
 
 Copiando el token de coveralls por una parte en un fichero **.coveralls.yml**:
 
-![token](https://i.imgur.com/hK1QAaT.jpg)
+![token](https://i.imgur.com/ZcDaHt7.jpg)
 
 Luego realizaríamos el seguimiento continuo por GitHub Actions creando un propio workflows para coveralls:
 
-![coveralls workflow](https://i.imgur.com/bQiVn0h.jpg)
+![coveralls workflow](https://i.imgur.com/jZ9kDN3.jpg)
 
 
 
@@ -295,11 +331,11 @@ Y así finalizamos esta práctica e informe redactado en el archivo **index.md**
 ## CONCLUSIONES
 
 
-Conclusión sobre la práctica e informe: La dificultad la tuve a nivel de tiempo sobre todo de plantear el ejercicio 3, por ello no conseguí hacer nada solo copiar los ficheros de la práctica anterior, de resto todo decente. A la hora de engancharlo con coveralls no se hacía correctamente al igual que terminar de realizar el workflow de coveralls con giithub actions, causándome problemas que en otras prácticas no ha surgido.
+Conclusión sobre la práctica e informe: Con respecto a la práctica tuve dudas a la hora de organizar el fichero y por ello acudí a tutorías, a partir de ahí pude encaminar mejor la práctica, simplificando el prototipo inicial con un fichero client.ts el cual era innecesario a cambio hice un fichero commands.ts que maneja los comandos yargs necesarios para el tratamiento de notas. Al principio por ello tuve problemas de saber organizar de forma estructurada la práctica. Luego tuve fallos con las github actions a la hora de enlazar los buges a pesar de lso test que hice y que salieron. Y sonarCloud no reconoce mi repositorio, dificultándome el trabajar pues a pesar de hacer el repo público, sonarcloud no me lo reconoce y no puedo encontrarlo, por ello no lo he tratado. 
 
 ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂
 
 ## BIBLIOGRAFÍA Y/O WEBGRAFÍA
 
 
-- [Enunciado práctica](https://ull-esit-inf-dsi-2021.github.io/prct09-async-fs-process/)
+- [Enunciado práctica](https://ull-esit-inf-dsi-2021.github.io/prct10-async-sockets/)

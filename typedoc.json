@@ -1,9 +1,10 @@
 {
-  "entryPoints": ["./src/ejercicio-pe102/server.ts",
-                  "./src/ejercicio-pe102/client.ts",
-                  "./src/ejercicio-pe102/server-two-chunks.ts",
-                  "./src/ejercicio-pe102/eventEmitterClient.ts",
-                  "./src/ejercicio-pe102/commands.ts"
+  "entryPoints": ["./src/api-notas/server.ts",
+                  "./src/api-notas/types.ts",
+                  "./src/api-notas/commands.ts",
+                  "./src/api-notas/notes/userTodo.ts",
+                  "./src/api-notas/notes/todoCollection.ts",
+                  "./src/api-notas/notes/todoItem.ts"
 ],
   "out": "./docs"
 }

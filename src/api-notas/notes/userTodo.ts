@@ -1,5 +1,5 @@
 import { TodoItem } from "./todoItem";
-import { TodoCollection } from "./todoCollection";
+import { getTodoColor, loadTodo, saveTodo, TodoCollection } from "./todoCollection";
 import {watchFile} from 'fs';
 import {readFile} from 'fs';
 import * as yargs from 'yargs';
@@ -44,11 +44,11 @@ yargs.command({
       console.clear();
       console.log(chalk.green(`${argv.user}'s Todo List: added task`));
       //Se llamaría a dichos métodos para añadir la nota al gual que se crea el directorio del usuario si no existe
-      let userNotes = collection.loadTodo(argv.user);
-      let color = collection.getTodoColor(argv.color);
+      let userNotes = loadTodo(argv.user);
+      let color = getTodoColor(argv.color);
       if (color) {
         userNotes.push(new TodoItem(argv.user, argv.title, argv.body, argv.color));
-        collection.saveTodo(userNotes, argv.user.toString());
+        saveTodo(argv.user.toString());
       } else {
         console.log('Invalid color');
         console.log('Admited colors: Red, Blue, Green, Yellow, Black');
@@ -148,7 +148,7 @@ yargs.command({
     if (typeof argv.user === 'number') {
       console.clear();
       console.log(chalk.green(`${argv.user}'s Todo List`));
-      let task = collection.loadTodo(argv.user);
+      let task = loadTodo(argv.user);
       console.log(chalk.green('Listing tasks for user ' + argv.user + '...\n'));
       for (const note of task) {
         console.log(note.getTitle() + ' ');

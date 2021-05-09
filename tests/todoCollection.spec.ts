@@ -1,7 +1,7 @@
 import "mocha";
 import {expect} from 'chai';
 import { TodoItem } from "../src/api-notas/notes/todoItem";
-import { loadTodo, saveTodo, TodoCollection } from "../src/api-notas/notes/todoCollection";
+import { getTodoColor, loadTodo, saveTodo, TodoCollection } from "../src/api-notas/notes/todoCollection";
 import chalk from "chalk";
 
 let todos: TodoItem[] = [
@@ -24,9 +24,9 @@ describe('Initialization tests todoCollection', () => {
 
     it('getTodoColor', () => {
         expect(getTodoColor("red")).to.be.equal(chalk.red);
-        expect(collection.getTodoColor("blue")).to.be.equal(chalk.blue);
-        expect(collection.getTodoColor("green")).to.be.equal(chalk.green);
-        expect(collection.getTodoColor("yellow")).to.be.equal(chalk.yellow);
+        expect(getTodoColor("blue")).to.be.equal(chalk.blue);
+        expect(getTodoColor("green")).to.be.equal(chalk.green);
+        expect(getTodoColor("yellow")).to.be.equal(chalk.yellow);
     });
 
     it('removeTodo', () => {
@@ -39,6 +39,6 @@ describe('Initialization tests todoCollection', () => {
     });
 
     it('saveTodo', () => {
-        expect(saveTodo(todos, "")).to.be.deep.equal(undefined);
+        expect(saveTodo("Adam")).to.be.deep.equal(undefined);
     });
 });

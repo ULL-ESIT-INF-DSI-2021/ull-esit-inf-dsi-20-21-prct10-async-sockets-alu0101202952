@@ -1,6 +1,6 @@
 import "mocha";
 import {expect} from 'chai';
-import { TodoItem } from "../src/todoItem";
+import { TodoItem } from "../src/api-notas/notes/todoItem";
 
 
 let newTodo1 =  new TodoItem(1, "Buy pancakes", "At 5.00 open the bakery", "red");
